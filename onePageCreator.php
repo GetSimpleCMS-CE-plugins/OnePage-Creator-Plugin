@@ -4,151 +4,168 @@ $thisfile = basename(__FILE__, ".php");
 
 # register plugin
 register_plugin(
-    $thisfile, //Plugin id
-    'OnePage Creator💪',     //Plugin name
-    '1.0',         //Plugin version
-    'Multicolor',  //Plugin author
-    'https://ko-fi.com/multicolorplugins', //author website
-    'Plugin for create OnePage website', //Plugin description
-    'plugins', //page type - on which admin tab to display
-    'OnePageHow'  //main function (administration)
+	$thisfile, //Plugin id
+	'OnePage Creator💪',	 //Plugin name
+	'1.0',		 //Plugin version
+	'Multicolor',  //Plugin author
+	'https://ko-fi.com/multicolorplugins', //author website
+	'Turn individual pages into sections for a One Page site.', //Plugin description
+	'theme', //page type - on which admin tab to display
+	'OnePageHow'  //main function (administration)
 );
 
+add_action('theme-sidebar', 'createSideMenu', array($thisfile, 'How to use OnePage Creator? 💪'));
 
+# Start Instructions
+function OnePageHow(){
+	$html = '
+	<style>
+		hr{border:1px solid #ccc}
+		.before{background:#fafafa;border:solid 1px #ddd;color:red;width:100%;padding:5px;display:inline-block;width:auto;margin:10px 0}
+		.after{background:#fafafa;border:solid 1px #ddd;color:green;width:100%;padding:5px;display:inline-block;width:auto;margin:10px 0}
+		h4{font-weight:bold;font-size:15px;margin-top:30px}
+		.plugin p{margin:0px}
+		.plugin em{color:blue}
+	</style>
+	
+<div class="plugin">
+	<h3>How to use OnePage Creator?</h3>
+	<p>Turn individual pages into sections for a One Page site.</p>
+	<hr>
+	
+	<div>
+		<h4>Step 1:</h4>  
+		<p>In your theme, update the following:</p><br>
+		
+		<p>Replace:</p>
+		<code class="before">&lt;?php get_navigation();?></code>
+		
+		<p>With: </p>
+		<code class="after">&lt;?php get_onePage_navigation();?></code>
 
-add_action('plugins-sidebar', 'createSideMenu', array($thisfile, 'How to use OnePage Creator? 💪'));
+		<p>And replace:</p>
+		<code class="before">&lt;?php get_page_content();?></code>
+		
+		<p>With: </p>
+		<code class="after">&lt;?php get_onePage_content();?></code>
+	</div>
+	
+	<div>
+		<h4>Step 2:</h4>
 
-function OnePageHow()
-{
+		<p>Create templates for your page sections. For example: </p><br>
+		
+		<p>Create new "<em>section1.php</em>" with the following: </p>
+		<code class="after">
+		&lt;section id="&lt;?php echo $OnePageSlug; ?>"><br>
+			&nbsp;&nbsp; &lt;main><br>
+				&nbsp;&nbsp;&nbsp;&nbsp; &lt;h2 class="color:blue">&lt;?php echo $OnePageTitle; ?>&lt;/h2><br>
+				&nbsp;&nbsp;&nbsp;&nbsp; &lt;?php echo $OnePageContent; ?><br>
+			&nbsp;&nbsp; &lt;/main><br>
+		&lt;/section>
+		</code>
 
-    $html = '<h3>How to use OnePage Creator?</h3>
+		<p>And "<em>section2.php</em>" with the following: </p>
+		<code class="after">
+		&lt;section id="&lt;?php echo $OnePageSlug; ?>"><br>
+			&nbsp;&nbsp; &lt;main><br>
+				&nbsp;&nbsp;&nbsp;&nbsp; &lt;h2 class="color:green">&lt;?php echo $OnePageTitle; ?>&lt;/h2><br>
+				&nbsp;&nbsp;&nbsp;&nbsp; &lt;?php echo $OnePageContent; ?><br>
+			&nbsp;&nbsp; &lt;/main><br>
+		&lt;/section>
+		</code>
+	</div>
+	
+	<div>
+		<h4>Step 3:</h4>
+		<p>&nbsp;</p>
+		<ul>
+			<li><p><span style="color:red;font-weight:bold;">Important!</span> In Homepage, "<b><span style="font-size:2em">&square;</span> Add this to the menu</b>" must be unchecked.</p></li>
+			
+			<li><p>Create new page "Info" for example, select template "<em>section1.php</em>" and add to menu.</p></li>
+			
+			<li><p>Create new page "Contact" for example, select template "<em>section2.php</em>" and add to menu.</p></li>
+		</ul>
+		<p>Your new sections will be based on menu order.</p>
+	</div>
+	
+</div>
+';
 
+	$html .= '
+	<hr style="margin:50px 0 20px">
+	Special Thanks for Islander special thanks to Islander for cleaning up the code and writing the user manual
+	
+		<hr style="margin-top:20px">
 
-    <b style="font-size:15px;">1 Step:</b>
-    <hr>
-<br>   
-    replace:<br>
-    <code style="background:#fafafa;border:solid 1px #ddd;color:black;width:100%;padding:5px;display:inline-block;width:auto;margin:10px 0">&lt;?php get_navigation(return_page_slug());?></code>
-    <br>
-    to: </br>
-        <code style="background:#fafafa;border:solid 1px #ddd;color:black;width:100%;padding:5px;display:inline-block;width:auto;;margin:10px 0">&lt;?php get_navigation(return_page_slug());?></code>
+	<script type="text/javascript" src="https://storage.ko-fi.com/cdn/widget/Widget_2.js"></script><script type="text/javascript">kofiwidget2.init("Buy Me Ko-fi", "#e02828", "I3I2RHQZS");kofiwidget2.draw();</script> ';   
 
-<br><br>
-       <b style="font-size:15px;">2 Step:</b>
-<hr>
-<br>
-    replace:<br>
-    <code style="background:#fafafa;border:solid 1px #ddd;color:black;width:100%;padding:5px;display:inline-block;width:auto;margin:10px 0">&lt;?php get_page_content();?></code>
-    <br>
-    to: </br>
-        <code style="background:#fafafa;border:solid 1px #ddd;color:black;width:100%;padding:5px;display:inline-block;width:auto;;margin:10px 0">&lt;?php onePageLoop();?></code>
-
-<br><br>
-       <b style="font-size:15px;">3 Step:</b>
-
-       
-<hr>
-<br>
-       Create template <b>yoursName.php</b> on yours theme like this example: <br>
- 
-               <code style="background:#fafafa;border:solid 1px #ddd;color:black;width:100%;padding:5px;display:inline-block;width:auto;;margin:10px 0">
-               
-                   &lt;section id="&lt;?php echo $OnePageSlug; ?>"><br>
-        &lt;main><br>
-            &lt;h2>&lt;?php echo $OnePageTitle; ?>&lt;/h2><br>
-            &lt;?php echo $OnePageContent; ?><br>
-        &lt;/main><br>
-    &lt;/section>
-
-               </code>
-
-<br>
-               <br>
-                   <b style="font-size:15px;">4 Step:</b>
-<hr>
-<p>
-<br>
-create a page, add it to the menu and select yoursName.php from the page template included in the page options. The order in which subsequent pages (which will now be sections) are displayed depends on the order setting in the menu. 
-<br>
-<span style="color:red;font-weight:bold;">Important! Uncheck homepage display in the menu in the page options, failure to do so will result in an error on the page. A link to the home page is automatically added to keep the loop correct. </span><br> 
-            
-</p>
-
-
-    ';
-
-
- $html .= "<script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script><script type='text/javascript'>kofiwidget2.init('Buy Me Ko-fi', '#e02828', 'I3I2RHQZS');kofiwidget2.draw();</script> ";   
-
-    echo $html;
+	echo $html;
 };
 
-function onePageNav()
-{
+# Start Logic
+function get_onePage_navigation(){
 
-    global $SITEURL;
-    global $classPrefix;
+	global $SITEURL;
+	global $classPrefix;
 
+	$Homexml = simplexml_load_file(GSDATAPAGESPATH . 'index.xml');
 
-    $Homexml = simplexml_load_file(GSDATAPAGESPATH . 'index.xml');
+	global $menu;
 
-    global $menu;
+	$menu .= '
+	<li class=""><a href="' . $SITEURL . '" title="' . encode_quotes(cl($Homexml->title)) . '">' .  $Homexml->menu  . '</a></li>' . "\n";
 
+	global $pagesArray, $id;
+	if (empty($currentpage)) $currentpage = $id;
 
-    $menu .= '<li class=""><a href="' . $SITEURL . '" title="' . encode_quotes(cl($Homexml->title)) . '">' .  $Homexml->menu  . '</a></li>' . "\n";
+	$pagesSorted = subval_sort($pagesArray, 'menuOrder');
+	if (count($pagesSorted) != 0) {
+		foreach ($pagesSorted as $page) {
+			$sel = '';
+			$classes = '';
+			$url_nav = $page['url'];
 
+			if ($page['menuStatus'] == 'Y') {
+				$parentClass = !empty($page['parent']) ? $classPrefix . $page['parent'] . " " : "";
+				$classes = trim($parentClass . $classPrefix . $url_nav);
+				if ($currentpage == $url_nav) $classes .= " current active";
+				if ($page['menu'] == '') {
+					$page['menu'] = $page['title'];
+				}
+				if ($page['title'] == '') {
+					$page['title'] = $page['menu'];
+				}
+				$menu .= '<li class="' . $classes . '"><a href="#' . $page['slug'] . '" title="' . encode_quotes(cl($page['title'])) . '">' . strip_decode($page['menu']) . '</a></li>' . "\n";
+			}
+		}
+	}
 
-    global $pagesArray, $id;
-    if (empty($currentpage)) $currentpage = $id;
-
-    $pagesSorted = subval_sort($pagesArray, 'menuOrder');
-    if (count($pagesSorted) != 0) {
-        foreach ($pagesSorted as $page) {
-            $sel = '';
-            $classes = '';
-            $url_nav = $page['url'];
-
-            if ($page['menuStatus'] == 'Y') {
-                $parentClass = !empty($page['parent']) ? $classPrefix . $page['parent'] . " " : "";
-                $classes = trim($parentClass . $classPrefix . $url_nav);
-                if ($currentpage == $url_nav) $classes .= " current active";
-                if ($page['menu'] == '') {
-                    $page['menu'] = $page['title'];
-                }
-                if ($page['title'] == '') {
-                    $page['title'] = $page['menu'];
-                }
-                $menu .= '<li class="' . $classes . '"><a href="#' . $page['slug'] . '" title="' . encode_quotes(cl($page['title'])) . '">' . strip_decode($page['menu']) . '</a></li>' . "\n";
-            }
-        }
-    }
-
-    echo exec_filter('menuitems', $menu);
+	echo exec_filter('menuitems', $menu);
 };
 
-function onePageLoop()
-{
+function get_onePage_content(){
 
-    global $pagesArray, $id;
-    if (empty($currentpage)) $currentpage = $id;
-    $pagesSorted = subval_sort($pagesArray, 'menuOrder');
+	global $pagesArray, $id;
+	if (empty($currentpage)) $currentpage = $id;
+	$pagesSorted = subval_sort($pagesArray, 'menuOrder');
 
-    if (count($pagesSorted) != 0) {
-        foreach ($pagesSorted as $page) {
-            $sel = '';
-            $classes = '';
-            $url_nav = $page['url'];
+	if (count($pagesSorted) != 0) {
+		foreach ($pagesSorted as $page) {
+			$sel = '';
+			$classes = '';
+			$url_nav = $page['url'];
 
-            if ($page['menuStatus'] == 'Y') {
+			if ($page['menuStatus'] == 'Y') {
 
-                global $TEMPLATE;
+				global $TEMPLATE;
 
-                $OnePageTitle = $page['title'];
-                $OnePageContent = returnPageContent($page['slug']);
-                $OnePageSlug = $page['slug'];
+				$OnePageTitle = $page['title'];
+				$OnePageContent = returnPageContent($page['slug']);
+				$OnePageSlug = $page['slug'];
 
-                include('theme/' . $TEMPLATE . '/' . $page['template']);
-            }
-        }
-    }
+				include('theme/' . $TEMPLATE . '/' . $page['template']);
+			}
+		}
+	}
 };
