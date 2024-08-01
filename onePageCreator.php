@@ -94,9 +94,6 @@ function OnePageHow(){
 
 	$html .= '
 	<hr style="margin:50px 0 20px">
-	Special Thanks for Islander special thanks to Islander for cleaning up the code and writing the user manual
-	
-		<hr style="margin-top:20px">
 
 	<script type="text/javascript" src="https://storage.ko-fi.com/cdn/widget/Widget_2.js"></script><script type="text/javascript">kofiwidget2.init("Buy Me Ko-fi", "#e02828", "I3I2RHQZS");kofiwidget2.draw();</script> ';   
 
