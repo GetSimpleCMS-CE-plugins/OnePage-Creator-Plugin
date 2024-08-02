@@ -17,7 +17,8 @@ register_plugin(
 add_action('theme-sidebar', 'createSideMenu', array($thisfile, 'How to use OnePage Creator? 💪'));
 
 # Start Instructions
-function OnePageHow(){
+function OnePageHow()
+{
 	$html = '
 	<style>
 		hr{border:1px solid #ccc}
@@ -100,25 +101,27 @@ function OnePageHow(){
 	
 		<hr style="margin-top:20px">
 
-	<script type="text/javascript" src="https://storage.ko-fi.com/cdn/widget/Widget_2.js"></script><script type="text/javascript">kofiwidget2.init("Buy Me Ko-fi", "#e02828", "I3I2RHQZS");kofiwidget2.draw();</script> ';   
+	<script type="text/javascript" src="https://storage.ko-fi.com/cdn/widget/Widget_2.js"></script><script type="text/javascript">kofiwidget2.init("Buy Me Ko-fi", "#e02828", "I3I2RHQZS");kofiwidget2.draw();</script> ';
 
 	echo $html;
 };
 
 
- 
-function get_onePage_redirect(){
- 
-    if (!isset($OnePageContent) || empty($OnePageContent)) {
-        // Przekieruj na stronę główną z kodem 301
+
+function get_onePage_redirect()
+{
+
+	if (!isset($OnePageContent) || empty($OnePageContent)) {
+		// Przekieruj na stronę główną z kodem 301
 		putenv("REDIRECT_TO_INDEX=true");
- 		} 
+	}
 }
 
- 
+
 
 # Start Logic
-function get_onePage_navigation(){
+function get_onePage_navigation()
+{
 
 	global $SITEURL;
 	global $classPrefix;
@@ -158,9 +161,10 @@ function get_onePage_navigation(){
 	echo exec_filter('menuitems', $menu);
 };
 
-function get_onePage_content(){
+function get_onePage_content()
+{
 
-	
+
 
 
 	global $pagesArray, $id;
@@ -177,18 +181,26 @@ function get_onePage_content(){
 
 				global $TEMPLATE;
 
-				$OnePageTitle = $page['title'] ;
+				$OnePageTitle = $page['title'];
 				$OnePageContent = returnPageContent($page['slug']);
 				$OnePageSlug = $page['slug'];
 
-		 
+
 
 				include('theme/' . $TEMPLATE . '/' . $page['template']);
-
-				
 			}
 		}
 	}
 };
 
- 
+
+function get_onePage_section($pageslug = '')
+{
+	$page = simplexml_load_file(GSDATAPAGESPATH . $pageslug . '.xml');
+	global $TEMPLATE;
+
+	$OnePageTitle = $page->title;
+	$OnePageContent = html_entity_decode($page->content);
+	$OnePageSlug = $page->slug;
+ include('theme/' . $TEMPLATE . '/' . $page->template);
+};
