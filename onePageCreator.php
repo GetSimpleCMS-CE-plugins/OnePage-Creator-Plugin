@@ -6,7 +6,7 @@ $thisfile = basename(__FILE__, ".php");
 register_plugin(
 	$thisfile, //Plugin id
 	'OnePage Creator💪',	 //Plugin name
-	'1.1',		 //Plugin version
+	'1.2',		 //Plugin version
 	'Multicolor',  //Plugin author
 	'https://ko-fi.com/multicolorplugins', //author website
 	'Turn individual pages into sections for a One Page site.', //Plugin description
@@ -14,7 +14,7 @@ register_plugin(
 	'OnePageHow'  //main function (administration)
 );
 
-add_action('theme-sidebar', 'createSideMenu', array($thisfile, 'How to use OnePage Creator? 💪'));
+add_action('theme-sidebar', 'createSideMenu', array($thisfile, 'OnePage Creator? 💪'));
 
 # Start Instructions
 function OnePageHow()
@@ -61,7 +61,7 @@ function OnePageHow()
 		&lt;?php get_onePage_redirect();?><br>
 		&lt;section id="&lt;?php echo $OnePageSlug; ?>"><br>
 			&nbsp;&nbsp; &lt;main><br>
-				&nbsp;&nbsp;&nbsp;&nbsp; &lt;h2 class="color:blue">&lt;?php echo $OnePageTitle; ?>&lt;/h2><br>
+				&nbsp;&nbsp;&nbsp;&nbsp; &lt;h2 style="color:blue">&lt;?php echo $OnePageTitle; ?>&lt;/h2><br>
 				&nbsp;&nbsp;&nbsp;&nbsp; &lt;?php echo $OnePageContent; ?><br>
 			&nbsp;&nbsp; &lt;/main><br>
 		&lt;/section>
@@ -72,7 +72,7 @@ function OnePageHow()
 		&lt;?php get_onePage_redirect();?><br>
 		&lt;section id="&lt;?php echo $OnePageSlug; ?>"><br>
 			&nbsp;&nbsp; &lt;main><br>
-				&nbsp;&nbsp;&nbsp;&nbsp; &lt;h2 class="color:green">&lt;?php echo $OnePageTitle; ?>&lt;/h2><br>
+				&nbsp;&nbsp;&nbsp;&nbsp; &lt;h2 style="color:green">&lt;?php echo $OnePageTitle; ?>&lt;/h2><br>
 				&nbsp;&nbsp;&nbsp;&nbsp; &lt;?php echo $OnePageContent; ?><br>
 			&nbsp;&nbsp; &lt;/main><br>
 		&lt;/section>
@@ -97,31 +97,21 @@ function OnePageHow()
 
 	$html .= '
 	<hr style="margin:50px 0 20px">
-	Special Thanks for Islander special thanks to Islander for cleaning up the code and writing the user manual
-	
-		<hr style="margin-top:20px">
 
 	<script type="text/javascript" src="https://storage.ko-fi.com/cdn/widget/Widget_2.js"></script><script type="text/javascript">kofiwidget2.init("Buy Me Ko-fi", "#e02828", "I3I2RHQZS");kofiwidget2.draw();</script> ';
 
 	echo $html;
 };
 
-
-
-function get_onePage_redirect()
-{
-
+function get_onePage_redirect(){
 	if (!isset($OnePageContent) || empty($OnePageContent)) {
 		// Przekieruj na stronę główną z kodem 301
 		putenv("REDIRECT_TO_INDEX=true");
 	}
 }
 
-
-
 # Start Logic
-function get_onePage_navigation()
-{
+function get_onePage_navigation(){
 
 	global $SITEURL;
 	global $classPrefix;
@@ -153,7 +143,7 @@ function get_onePage_navigation()
 				if ($page['title'] == '') {
 					$page['title'] = $page['menu'];
 				}
-				$menu .= '<li class="' . $classes . '"><a href="/#' . $page['slug'] . '" title="' . encode_quotes(cl($page['title'])) . '">' . strip_decode($page['menu']) . '</a></li>' . "\n";
+				$menu .= '<li class="' . $classes . '"><a href="#' . $page['slug'] . '" title="' . encode_quotes(cl($page['title'])) . '">' . strip_decode($page['menu']) . '</a></li>' . "\n";
 			}
 		}
 	}
@@ -161,12 +151,7 @@ function get_onePage_navigation()
 	echo exec_filter('menuitems', $menu);
 };
 
-function get_onePage_content()
-{
-
-
-
-
+function get_onePage_content(){
 	global $pagesArray, $id;
 	if (empty($currentpage)) $currentpage = $id;
 	$pagesSorted = subval_sort($pagesArray, 'menuOrder');
@@ -184,18 +169,14 @@ function get_onePage_content()
 				$OnePageTitle = $page['title'];
 				$OnePageContent = returnPageContent($page['slug']);
 				$OnePageSlug = $page['slug'];
-
-
-
+				
 				include('theme/' . $TEMPLATE . '/' . $page['template']);
 			}
 		}
 	}
 };
 
-
-function get_onePage_section($pageslug = '')
-{
+function get_onePage_section($pageslug = ''){
 	$page = simplexml_load_file(GSDATAPAGESPATH . $pageslug . '.xml');
 	global $TEMPLATE;
 
