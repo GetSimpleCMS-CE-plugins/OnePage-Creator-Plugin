@@ -92,6 +92,17 @@ function OnePageHow()
 		<p>Your new sections will be based on menu order.</p>
 	</div>
 	
+	<div>
+		<h4>Optional:</h4>
+		<p>If you would like to include a page that does not have have the "Add this to the menu" selected, for example, a sub-page, include the following in your template:</p>
+		
+		<code class="after">
+		&lt;?php get_onePage_section(\'page-slug\');?>
+		</code>
+		
+		<p>This section will be added to your OnePage, but will not appear in the menu.</p>
+	</div>
+	
 </div>
 ';
 
