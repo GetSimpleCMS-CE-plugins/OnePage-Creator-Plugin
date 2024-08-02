@@ -6,7 +6,7 @@ $thisfile = basename(__FILE__, ".php");
 register_plugin(
 	$thisfile, //Plugin id
 	'OnePage Creator💪',	 //Plugin name
-	'1.0',		 //Plugin version
+	'1.1',		 //Plugin version
 	'Multicolor',  //Plugin author
 	'https://ko-fi.com/multicolorplugins', //author website
 	'Turn individual pages into sections for a One Page site.', //Plugin description
@@ -57,6 +57,7 @@ function OnePageHow(){
 		
 		<p>Create new "<em>section1.php</em>" with the following: </p>
 		<code class="after">
+		&lt;?php get_onePage_redirect();?><br>
 		&lt;section id="&lt;?php echo $OnePageSlug; ?>"><br>
 			&nbsp;&nbsp; &lt;main><br>
 				&nbsp;&nbsp;&nbsp;&nbsp; &lt;h2 class="color:blue">&lt;?php echo $OnePageTitle; ?>&lt;/h2><br>
@@ -67,6 +68,7 @@ function OnePageHow(){
 
 		<p>And "<em>section2.php</em>" with the following: </p>
 		<code class="after">
+		&lt;?php get_onePage_redirect();?><br>
 		&lt;section id="&lt;?php echo $OnePageSlug; ?>"><br>
 			&nbsp;&nbsp; &lt;main><br>
 				&nbsp;&nbsp;&nbsp;&nbsp; &lt;h2 class="color:green">&lt;?php echo $OnePageTitle; ?>&lt;/h2><br>
@@ -103,6 +105,18 @@ function OnePageHow(){
 	echo $html;
 };
 
+
+ 
+function get_onePage_redirect(){
+ 
+    if (!isset($OnePageContent) || empty($OnePageContent)) {
+        // Przekieruj na stronę główną z kodem 301
+		putenv("REDIRECT_TO_INDEX=true");
+ 		} 
+}
+
+ 
+
 # Start Logic
 function get_onePage_navigation(){
 
@@ -136,7 +150,7 @@ function get_onePage_navigation(){
 				if ($page['title'] == '') {
 					$page['title'] = $page['menu'];
 				}
-				$menu .= '<li class="' . $classes . '"><a href="#' . $page['slug'] . '" title="' . encode_quotes(cl($page['title'])) . '">' . strip_decode($page['menu']) . '</a></li>' . "\n";
+				$menu .= '<li class="' . $classes . '"><a href="/#' . $page['slug'] . '" title="' . encode_quotes(cl($page['title'])) . '">' . strip_decode($page['menu']) . '</a></li>' . "\n";
 			}
 		}
 	}
@@ -145,6 +159,9 @@ function get_onePage_navigation(){
 };
 
 function get_onePage_content(){
+
+	
+
 
 	global $pagesArray, $id;
 	if (empty($currentpage)) $currentpage = $id;
@@ -160,12 +177,18 @@ function get_onePage_content(){
 
 				global $TEMPLATE;
 
-				$OnePageTitle = $page['title'];
+				$OnePageTitle = $page['title'] ;
 				$OnePageContent = returnPageContent($page['slug']);
 				$OnePageSlug = $page['slug'];
 
+		 
+
 				include('theme/' . $TEMPLATE . '/' . $page['template']);
+
+				
 			}
 		}
 	}
 };
+
+ 
