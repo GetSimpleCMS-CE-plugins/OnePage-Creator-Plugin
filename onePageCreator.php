@@ -103,6 +103,11 @@ function OnePageHow()
 		<p>This section will be added to your OnePage, but will not appear in the menu.</p>
 	</div>
 	
+	<div>
+		<h4>Note:</h4>
+		<p>The content of the index page will not be displayed. This page is used as a placeholder for the sections loop.</p>
+	</div>
+	
 </div>
 ';
 
