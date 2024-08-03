@@ -5,7 +5,7 @@ $thisfile = basename(__FILE__, ".php");
 # register plugin
 register_plugin(
 	$thisfile, //Plugin id
-	'OnePage Creator💪',	 //Plugin name
+	'OnePage Creator 💪',	 //Plugin name
 	'1.2',		 //Plugin version
 	'Multicolor',  //Plugin author
 	'https://ko-fi.com/multicolorplugins', //author website
@@ -14,7 +14,7 @@ register_plugin(
 	'OnePageHow'  //main function (administration)
 );
 
-add_action('theme-sidebar', 'createSideMenu', array($thisfile, 'OnePage Creator? 💪'));
+add_action('theme-sidebar', 'createSideMenu', array($thisfile, 'OnePage Creator 💪'));
 
 # Start Instructions
 function OnePageHow()
