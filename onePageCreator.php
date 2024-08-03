@@ -114,15 +114,43 @@ function OnePageHow()
 	echo $html;
 };
 
-function get_onePage_redirect(){
-	if (!isset($OnePageContent) || empty($OnePageContent)) {
-		// Przekieruj na stronę główną z kodem 301
-		putenv("REDIRECT_TO_INDEX=true");
+function get_onePage_redirect()
+{
+
+
+	global $SITEURL;
+	if (!isset($OnePageSlug)) {
+		// array for check menu
+		$ars = [];
+
+		//add to array if exist in menu
+		foreach (glob(GSDATAPAGESPATH . '*.xml') as $file) {
+			$filecheck = simplexml_load_file($file);
+
+			if ($filecheck->menuStatus == 'Y') {
+				$ars[] = $filecheck->url;
+			};
+		};
+
+		//create second array with  '/' on end,based ond first.
+
+		$ars2 = array_map(function($item) {
+			return $item . "/";
+		}, $ars);
+	 
+
+$url = substr( $_SERVER['REQUEST_URI'],1);
+	 
+		if (in_array($url, $ars) || in_array($url, $ars2) ) {
+			header("Location:/", true, 301);
+			exit();
+		};
 	}
 }
 
 # Start Logic
-function get_onePage_navigation(){
+function get_onePage_navigation()
+{
 
 	global $SITEURL;
 	global $classPrefix;
@@ -162,7 +190,8 @@ function get_onePage_navigation(){
 	echo exec_filter('menuitems', $menu);
 };
 
-function get_onePage_content(){
+function get_onePage_content()
+{
 	global $pagesArray, $id;
 	if (empty($currentpage)) $currentpage = $id;
 	$pagesSorted = subval_sort($pagesArray, 'menuOrder');
@@ -180,19 +209,20 @@ function get_onePage_content(){
 				$OnePageTitle = $page['title'];
 				$OnePageContent = returnPageContent($page['slug']);
 				$OnePageSlug = $page['slug'];
-				
+
 				include('theme/' . $TEMPLATE . '/' . $page['template']);
 			}
 		}
 	}
 };
 
-function get_onePage_section($pageslug = ''){
+function get_onePage_section($pageslug = '')
+{
 	$page = simplexml_load_file(GSDATAPAGESPATH . $pageslug . '.xml');
 	global $TEMPLATE;
 
 	$OnePageTitle = $page->title;
 	$OnePageContent = html_entity_decode($page->content);
 	$OnePageSlug = $page->slug;
- include('theme/' . $TEMPLATE . '/' . $page->template);
+	include('theme/' . $TEMPLATE . '/' . $page->template);
 };
